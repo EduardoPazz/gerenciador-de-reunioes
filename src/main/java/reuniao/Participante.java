@@ -2,7 +2,7 @@ package reuniao;
 
 import java.time.LocalDateTime;
 
-public class Participante {
+public class Participante implements Comparable<Participante>{
 
     private String identificacao;
     private LocalDateTime disponibilidadeInicial;
@@ -27,5 +27,11 @@ public class Participante {
 
     public String getIdentificacao() {
         return identificacao;
+    }
+
+    @Override
+    public int compareTo(Participante participante) {
+        return (this.getIdentificacao()
+                .compareTo(participante.getIdentificacao()));
     }
 }

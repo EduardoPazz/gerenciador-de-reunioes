@@ -19,7 +19,7 @@ public class MarcadorDeReuniao implements InterfaceMarcadorDeReuniao {
                                    LocalDate dataFinal,
                                    Collection<String> listaDeParticipantes) {
 
-        if (dataInicial.compareTo(dataFinal) > 0) {
+        if (dataInicial.isAfter(dataFinal)) {
             throw new IllegalArgumentException(String.format("Data final (%s) anterior à data inicial (%s)",
                     dataFinal,
                     dataInicial));
@@ -39,22 +39,22 @@ public class MarcadorDeReuniao implements InterfaceMarcadorDeReuniao {
     }
 
 
-    public void indicaDisponibilidade(String participante,
-                                      LocalDateTime inicio,
-                                      LocalDateTime fim) {
+    public void indicaDisponibilidadeDe(String participante,
+                                        LocalDateTime inicio,
+                                        LocalDateTime fim) {
 
         LocalDate dataDisponibilidadeInicial = inicio.toLocalDate();
         LocalDate dataDisponibilidadeFinal = fim.toLocalDate();
 
         // Testa se as datas passadas estão no intervalo correto
-        if (this.dataInicial.compareTo(dataDisponibilidadeInicial) > 0) {
+        if (this.dataInicial.isAfter(dataDisponibilidadeInicial)) {
             throw new IllegalArgumentException(String.format("Erro na data de início de disponibilidade " +
                     "do participante %s:\n" +
                     "%s ocorre antes da data de inicio da reunião, %s.",
                     participante,
                     dataDisponibilidadeInicial,
                     this.dataInicial));
-        } else if (this.dataFinal.compareTo(dataDisponibilidadeFinal) < 0) {
+        } else if (this.dataFinal.isBefore(dataDisponibilidadeFinal)) {
             throw new IllegalArgumentException(String.format("Erro na data de fim de disponibilidade " +
                     "do participante %s:\n" +
                     "%s ocorre após a data de fim da reunião, %s.",
@@ -80,15 +80,10 @@ public class MarcadorDeReuniao implements InterfaceMarcadorDeReuniao {
         if (contadorDeclaracoesDeDisponibilidade > 0)
             throw new DisponibilidadeException(contadorDeclaracoesDeDisponibilidade);
 
-        calculaJanelas();
-
+        this.linhaDoTempo = new LinhaDoTempo(tabelaDeParticipantes);
         for (Janela janela : this.linhaDoTempo.getListaJanelas()) {
             System.out.println(janela);
         }
     }
 
-    private void calculaJanelas() {
-        this.linhaDoTempo = new LinhaDoTempo(tabelaDeParticipantes);
-        this.linhaDoTempo.calculaJanelas();
-    }
 }

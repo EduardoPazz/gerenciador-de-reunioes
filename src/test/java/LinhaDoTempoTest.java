@@ -22,12 +22,12 @@ public class LinhaDoTempoTest {
                 Arrays.asList(edu, gabriel)
         );
 
-        marcadorDeReuniaoA.indicaDisponibilidade(edu,
+        marcadorDeReuniaoA.indicaDisponibilidadeDe(edu,
                 LocalDateTime.parse("2021-07-10T00:00:00"),
                 LocalDateTime.parse("2021-07-14T00:00:00")
         );
 
-        marcadorDeReuniaoA.indicaDisponibilidade(gabriel,
+        marcadorDeReuniaoA.indicaDisponibilidadeDe(gabriel,
                 LocalDateTime.parse("2021-07-12T00:00:00"),
                 LocalDateTime.parse("2021-07-17T00:00:00")
         );
@@ -45,12 +45,12 @@ public class LinhaDoTempoTest {
                 Arrays.asList(edu, gabriel)
         );
 
-        marcadorDeReuniaoB.indicaDisponibilidade(edu,
+        marcadorDeReuniaoB.indicaDisponibilidadeDe(edu,
                 LocalDateTime.parse("2021-07-17T10:00:00"),
                 LocalDateTime.parse("2021-07-17T11:00:00")
         );
 
-        marcadorDeReuniaoB.indicaDisponibilidade(gabriel,
+        marcadorDeReuniaoB.indicaDisponibilidadeDe(gabriel,
                 LocalDateTime.parse("2021-07-17T12:00:00"),
                 LocalDateTime.parse("2021-07-17T14:00:00")
         );
@@ -68,17 +68,45 @@ public class LinhaDoTempoTest {
                 Arrays.asList(edu, gabriel)
         );
 
-        marcadorDeReuniaoC.indicaDisponibilidade(gabriel,
+        marcadorDeReuniaoC.indicaDisponibilidadeDe(gabriel,
                 LocalDateTime.parse("2021-07-17T11:00:00"),
                 LocalDateTime.parse("2021-07-17T14:00:00")
         );
 
-        marcadorDeReuniaoC.indicaDisponibilidade(edu,
+        marcadorDeReuniaoC.indicaDisponibilidadeDe(edu,
                 LocalDateTime.parse("2021-07-17T10:00:00"),
                 LocalDateTime.parse("2021-07-17T11:00:00")
         );
 
 
         marcadorDeReuniaoC.mostraSobreposicao();
+
+        System.out.println("-------------------------");
+
+        MarcadorDeReuniao marcadorDeReuniaoD = new MarcadorDeReuniao();
+
+
+        marcadorDeReuniaoD.marcarReuniaoEntre(
+                LocalDate.parse("2021-07-17"),
+                LocalDate.parse("2021-07-17"),
+                Arrays.asList(silas, gabriel, edu)
+        );
+
+        marcadorDeReuniaoD.indicaDisponibilidadeDe(silas,
+                LocalDateTime.parse("2021-07-17T11:52:10"),
+                LocalDateTime.parse("2021-07-17T13:00:00")
+        );
+
+        marcadorDeReuniaoD.indicaDisponibilidadeDe(gabriel,
+                LocalDateTime.parse("2021-07-17T12:00:00"),
+                LocalDateTime.parse("2021-07-17T15:00:00")
+        );
+
+        marcadorDeReuniaoD.indicaDisponibilidadeDe(edu,
+                LocalDateTime.parse("2021-07-17T10:00:00"),
+                LocalDateTime.parse("2021-07-17T14:00:00")
+        );
+
+        marcadorDeReuniaoD.mostraSobreposicao();
     }
 }

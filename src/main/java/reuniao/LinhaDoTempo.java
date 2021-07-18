@@ -5,7 +5,7 @@ import java.util.*;
 public class LinhaDoTempo {
     private List<RegistroNoTempo> listaRegistrosNoTempo;
     private List<Janela> listaJanelas;
-    private List<Participante> listaParticipantesDisponíveis;
+    private List<Participante> listaParticipantesDisponiveis;
 
 
     public LinhaDoTempo(Map<String, Participante> tabelaDeParticipantes) {
@@ -33,9 +33,11 @@ public class LinhaDoTempo {
         }
 
         Collections.sort(this.listaRegistrosNoTempo);
+
+        this.calculaJanelas();
     }
 
-    public void calculaJanelas() {
+    private void calculaJanelas() {
 
         // Há uma janela entre cada par de registros
         int quantidadeJanelas = this.listaRegistrosNoTempo.size() - 1;
@@ -43,36 +45,45 @@ public class LinhaDoTempo {
 
         // No pior caso, teremos todos os participantes disponíveis
         int quantidadeParticipantes = this.listaRegistrosNoTempo.size() / 2;
-        this.listaParticipantesDisponíveis = new ArrayList<>(quantidadeParticipantes);
+        this.listaParticipantesDisponiveis = new ArrayList<>(quantidadeParticipantes);
 
+        /*
+        * No while a seguir, as janelas serão criadas entre cada par
+        * de registros. Seja j a quantidade de janelas e r a quantidade
+        * de registros, sabemos que j == r - 1. Portanto, um dos
+        * registros já é considerado antes do while para podermos ter j
+        * iterações exatamente. "Considerar" neste caso se refere ao
+        * ato de usar o método adicionaOuRemoveParticipante
+        * */
         int i = 0;
-
-        this.adicionaOuRemoveRegistro(this.listaRegistrosNoTempo.get(i));
-
-        while (i < this.listaRegistrosNoTempo.size() - 1) {
-
-
-            // TODO: testar o bug de dois registros no mesmo horário
-
+        this.adicionaOuRemoveParticipante(this.listaRegistrosNoTempo.get(i));
+        while (i < quantidadeJanelas) {
 
             // O registroB de uma iteração será o registroA da iteração seguinte
             RegistroNoTempo registroA = this.listaRegistrosNoTempo.get(i);
             RegistroNoTempo registroB = this.listaRegistrosNoTempo.get(++i);
 
-
+            /*
+            * Passamos um novo objeto ArrayList justamente para que esta
+            * janela não tenha sua lista de participantes alterada nas
+            * iterações seguintes por conta de uma referência a um único
+            * objeto.
+            * */
             this.listaJanelas.add(new Janela(registroA.getRegistroNoTempo(),
                     registroB.getRegistroNoTempo(),
-                    new ArrayList<>(this.listaParticipantesDisponíveis)));
+                    new ArrayList<>(this.listaParticipantesDisponiveis)));
 
-            this.adicionaOuRemoveRegistro(registroB);
+            this.adicionaOuRemoveParticipante(registroB);
         }
+
+        this.listaJanelas.sort(Collections.reverseOrder());
     }
 
-    private void adicionaOuRemoveRegistro(RegistroNoTempo registroNoTempo) {
+    private void adicionaOuRemoveParticipante(RegistroNoTempo registroNoTempo) {
         if (registroNoTempo.eRegistroInicial()) {
-            this.listaParticipantesDisponíveis.add(registroNoTempo.getParticipante());
+            this.listaParticipantesDisponiveis.add(registroNoTempo.getParticipante());
         } else {
-            this.listaParticipantesDisponíveis.remove(registroNoTempo.getParticipante());
+            this.listaParticipantesDisponiveis.remove(registroNoTempo.getParticipante());
         }
     }
 
