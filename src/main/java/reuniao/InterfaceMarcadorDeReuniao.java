@@ -11,9 +11,9 @@ public interface InterfaceMarcadorDeReuniao {
                                    Collection<String> listaDeParticipantes);
 
 
-    void indicaDisponibilidadeDe(String participante,
-                                        LocalDateTime inicio,
-                                        LocalDateTime fim);
+    void indicaDisponibilidade(String participante,
+                               LocalDateTime inicio,
+                               LocalDateTime fim);
 
 
     void mostraSobreposicao();

@@ -8,29 +8,22 @@ import java.util.Map;
 
 public class MarcadorDeReuniao implements InterfaceMarcadorDeReuniao {
 
-    private class Participante {
-        String identificacao;
-        LocalDateTime disponibilidadeInicial;
-        LocalDateTime disponibilidadeFinal;
-
-        Participante(String identificacao) {
-            this.identificacao = identificacao;
-        }
-
-        void setDisponibilidade(LocalDateTime inicio, LocalDateTime fim) {
-            disponibilidadeInicial = inicio;
-            disponibilidadeFinal = fim;
-        }
-    }
 
     private Map<String, Participante> tabelaDeParticipantes;
     private LocalDate dataInicial;
     private LocalDate dataFinal;
     private int contadorDeclaracoesDeDisponibilidade;
+    private LinhaDoTempo linhaDoTempo;
 
     public void marcarReuniaoEntre(LocalDate dataInicial,
                                    LocalDate dataFinal,
                                    Collection<String> listaDeParticipantes) {
+
+        if (dataInicial.compareTo(dataFinal) > 0) {
+            throw new IllegalArgumentException(String.format("Data final (%s) anterior à data inicial (%s)",
+                    dataFinal,
+                    dataInicial));
+        }
 
         this.dataInicial = dataInicial;
         this.dataFinal = dataFinal;
@@ -46,9 +39,30 @@ public class MarcadorDeReuniao implements InterfaceMarcadorDeReuniao {
     }
 
 
-    public void indicaDisponibilidadeDe(String participante,
-                                        LocalDateTime inicio,
-                                        LocalDateTime fim) {
+    public void indicaDisponibilidade(String participante,
+                                      LocalDateTime inicio,
+                                      LocalDateTime fim) {
+
+        LocalDate dataDisponibilidadeInicial = inicio.toLocalDate();
+        LocalDate dataDisponibilidadeFinal = fim.toLocalDate();
+
+        // Testa se as datas passadas estão no intervalo correto
+        if (this.dataInicial.compareTo(dataDisponibilidadeInicial) > 0) {
+            throw new IllegalArgumentException(String.format("Erro na data de início de disponibilidade " +
+                    "do participante %s:\n" +
+                    "%s ocorre antes da data de inicio da reunião, %s.",
+                    participante,
+                    dataDisponibilidadeInicial,
+                    this.dataInicial));
+        } else if (this.dataFinal.compareTo(dataDisponibilidadeFinal) < 0) {
+            throw new IllegalArgumentException(String.format("Erro na data de fim de disponibilidade " +
+                    "do participante %s:\n" +
+                    "%s ocorre após a data de fim da reunião, %s.",
+                    participante,
+                    dataDisponibilidadeFinal,
+                    this.dataFinal));
+        }
+
 
         try {
             tabelaDeParticipantes.get(participante).setDisponibilidade(inicio, fim);
@@ -66,6 +80,15 @@ public class MarcadorDeReuniao implements InterfaceMarcadorDeReuniao {
         if (contadorDeclaracoesDeDisponibilidade > 0)
             throw new DisponibilidadeException(contadorDeclaracoesDeDisponibilidade);
 
+        calculaJanelas();
 
+        for (Janela janela : this.linhaDoTempo.getListaJanelas()) {
+            System.out.println(janela);
+        }
+    }
+
+    private void calculaJanelas() {
+        this.linhaDoTempo = new LinhaDoTempo(tabelaDeParticipantes);
+        this.linhaDoTempo.calculaJanelas();
     }
 }
