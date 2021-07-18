@@ -81,6 +81,13 @@ public class MarcadorDeReuniao implements InterfaceMarcadorDeReuniao {
             throw new DisponibilidadeException(contadorDeclaracoesDeDisponibilidade);
 
         this.linhaDoTempo = new LinhaDoTempo(tabelaDeParticipantes);
+
+        System.out.println("Disponibilidades dos participantes:");
+        for (Participante participante : this.tabelaDeParticipantes.values()) {
+            System.out.println(participante);
+        }
+
+        System.out.println("\nJanelas de disponibilidades:");
         for (Janela janela : this.linhaDoTempo.getListaJanelas()) {
             System.out.println(janela);
         }

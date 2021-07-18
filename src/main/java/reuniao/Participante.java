@@ -34,4 +34,17 @@ public class Participante implements Comparable<Participante>{
         return (this.getIdentificacao()
                 .compareTo(participante.getIdentificacao()));
     }
+
+    @Override
+    public String toString() {
+        String dataInicialFormatada =
+                this.disponibilidadeInicial.format(Formatador.formato);
+        String dataFinalFormatada =
+                this.disponibilidadeFinal.format(Formatador.formato);
+
+        return String.format("%s: disponível entre %s e %s",
+                this.identificacao,
+                dataInicialFormatada,
+                dataFinalFormatada);
+    }
 }

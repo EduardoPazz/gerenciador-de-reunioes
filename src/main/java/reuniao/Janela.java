@@ -1,8 +1,6 @@
 package reuniao;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
@@ -33,9 +31,8 @@ public class Janela implements Comparable<Janela> {
     @Override
     public String toString() {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/u k:mm:ss");
-        String dataInicialFormatada = this.inicio.format(formatter);
-        String dataFinalFormatada = this.fim.format(formatter);
+        String dataInicialFormatada = this.inicio.format(Formatador.formato);
+        String dataFinalFormatada = this.fim.format(Formatador.formato);
 
 
         StringJoiner participantes = new StringJoiner(" - ");
