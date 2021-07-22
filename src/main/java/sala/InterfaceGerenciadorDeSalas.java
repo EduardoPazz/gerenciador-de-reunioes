@@ -8,13 +8,13 @@ public interface InterfaceGerenciadorDeSalas {
 
     void adicionaSalaChamada(String nome, int capacidadeMaxima, String descricao);
 
-    void removeSalaChamada(String nomeDaSala);
+    void removeSalaChamada(String nomeDaSala) throws ReservaException;
 
     List<Sala> listaDeSalas();
 
     void adicionaSala(Sala novaSala);
 
-    Reserva reservaSalaChamada(String nomeDaSala, LocalDateTime dataInicial, LocalDateTime dataFinal);
+    Reserva reservaSalaChamada(String nomeDaSala, LocalDateTime dataInicial, LocalDateTime dataFinal) throws ReservaException;
 
     void cancelaReserva(Reserva cancelada);
 

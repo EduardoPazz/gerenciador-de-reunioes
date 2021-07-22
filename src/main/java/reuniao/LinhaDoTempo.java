@@ -3,7 +3,7 @@ package reuniao;
 import java.util.*;
 
 public class LinhaDoTempo {
-    private List<RegistroNoTempo> listaRegistrosNoTempo;
+    private final List<RegistroNoTempo> listaRegistrosNoTempo;
     private List<Janela> listaJanelas;
     private List<Participante> listaParticipantesDisponiveis;
 
@@ -18,7 +18,8 @@ public class LinhaDoTempo {
         * */
         this.listaRegistrosNoTempo = new ArrayList<>(quantidadeParticipantes * 2);
 
-        for (Participante participante : tabelaDeParticipantes.values()) {
+
+        tabelaDeParticipantes.values().forEach(participante -> {
 
             RegistroNoTempo registroInicial = new RegistroNoTempo(participante.getDisponibilidadeInicial(),
                     true,
@@ -30,7 +31,7 @@ public class LinhaDoTempo {
 
             this.listaRegistrosNoTempo.add(registroInicial);
             this.listaRegistrosNoTempo.add(registroFinal);
-        }
+        });
 
         Collections.sort(this.listaRegistrosNoTempo);
 

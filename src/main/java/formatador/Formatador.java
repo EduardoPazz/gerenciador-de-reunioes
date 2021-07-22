@@ -1,4 +1,4 @@
-package reuniao;
+package formatador;
 
 import java.time.format.DateTimeFormatter;
 

@@ -1,10 +1,12 @@
 package reuniao;
 
+import formatador.Formatador;
+
 import java.time.LocalDateTime;
 
-public class Participante implements Comparable<Participante>{
+public class Participante implements Comparable<Participante> {
 
-    private String identificacao;
+    private final String identificacao;
     private LocalDateTime disponibilidadeInicial;
     private LocalDateTime disponibilidadeFinal;
 

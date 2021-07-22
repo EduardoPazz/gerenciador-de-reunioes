@@ -1,14 +1,16 @@
 package reuniao;
 
+import formatador.Formatador;
+
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 
 public class Janela implements Comparable<Janela> {
-    private LocalDateTime inicio;
-    private LocalDateTime fim;
-    private List<Participante> listaDeParticipantes;
+    private final LocalDateTime inicio;
+    private final LocalDateTime fim;
+    private final List<Participante> listaDeParticipantes;
 
     public Janela(LocalDateTime inicio, LocalDateTime fim, List<Participante> listaDeParticipantes) {
         this.inicio = inicio;
@@ -49,4 +51,7 @@ public class Janela implements Comparable<Janela> {
                 participantes);
     }
 
+    public boolean possuiParticipantes() {
+        return !this.listaDeParticipantes.isEmpty();
+    }
 }
